@@ -21,10 +21,11 @@ class Note:
         self._name = filename.replace('.json', '')
         self._title = data['title']
         if 'labels' in data:
-            self._labels = data['labels'][0]['name']
+            self.labels = data['labels'][0]['name']
         else:
-            self._labels = 'ROOT'
-        self.savename = self._labels + ' -- ' + self._name
+            self.labels = 'ROOT'
+        #self.savename = self.labels + ' -- ' + self._name
+        self.savename = self._name
         self._raw_date = data['userEditedTimestampUsec']
         self._date = datetime.datetime.fromtimestamp(self._raw_date/1_000_000)
         self._isTrashed = data['isTrashed']
@@ -81,11 +82,16 @@ if __name__ == '__main__':
 
     del notes
 
-    # Write dictionary to markdown files
+    # Create "markdown" folder
     if not os.path.isdir('markdown'):
         os.mkdir('markdown')
-    for i in parsed_notes:
-        name = i.replace('/', '-', 999)
-        with open(f'markdown/{name}.md', 'w') as f:
-            f.write(str(parsed_notes[i]))
+
+    # Write dictionary to markdown files
+    for savename in parsed_notes:
+        name = savename.replace('/', '-', 999)
+        subdir = parsed_notes[savename].labels.replace('/', '-', 999)
+        if not os.path.isdir(os.path.join('markdown', subdir)):
+            os.mkdir(os.path.join('markdown', subdir))
+        with open(os.path.join('markdown', subdir, f'{name}.md'), 'w') as f:
+            f.write(str(parsed_notes[savename]))
     print(f'Saved {len(parsed_notes.keys())} notes to /markdown')
