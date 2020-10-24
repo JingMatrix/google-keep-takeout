@@ -1,25 +1,32 @@
 # Google Keep takeout
 
-Run the script inside your takeout folder 
+Converts Google Keep JSON files downloaded from [Google Takeout](https://takeout.google.com/) to new markdown files. Markdown filenames begin with the Google Keep note's label name. All JSON properties are easily accessible, making it simple to customize the export.
+
+
+### Usage
+
+Run the script inside your "Takeout" folder, in the same directory as the "Keep" folder that contains the JSON notes.
 ```sh
-python export.py > exported.txt
+python export.py
 ```
 
-and get a txt file similar to this:
+Markdown files will be created in a new "markdown" folder, also residing in the Takeout folder.
 
+
+### Sample result
+
+For the Google Keep note "groceries" tagged with the label "shopping lists", you can expect the following result:
+
+Filename: "shopping lists -- groceries.md"
 ```
-Total #notes = 294   -- sorted by (Last update, archiving/not archived)
-
 ### Groceries
 Last edited: Monday July 13, 2020, 10:08:21 AM
+
 - [ ] nduja
 - [ ] nutella
 - [ ] ichnusa
-- [ ] ravioli 
-- [+] pesto genovese
-- [+] viennetta
-
-
-[...]
+- [ ] ravioli
+- [x] pesto genovese
+- [x] viennetta
 ```
 
